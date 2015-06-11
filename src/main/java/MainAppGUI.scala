@@ -1,4 +1,5 @@
 
+import java.awt.geom.Point2D
 import java.net.URL
 
 import scala.io.Source
@@ -14,56 +15,77 @@ object MainAppGUI extends SimpleSwingApplication {
   override def top: Frame = new MainFrame{
     contents = new BoxPanel(Orientation.Vertical){
       //GUI
-      val mapOptions = new ComboBox[Map](Seq[Map]( //Combobox of possible map selections
-        new Map("Ribbit IV", new URL("https://docs.google.com/spreadsheets/d/1ga9T6vYJXUEta_M8aI5fnPSJ13EfZyb4vJaSMF5wQig/export?format=csv&id=1ga9T6vYJXUEta_M8aI5fnPSJ13EfZyb4vJaSMF5wQig&gid=2105017707")),
-        new Map("Sorona", new URL("https://docs.google.com/spreadsheets/d/1ga9T6vYJXUEta_M8aI5fnPSJ13EfZyb4vJaSMF5wQig/export?format=csv&id=1ga9T6vYJXUEta_M8aI5fnPSJ13EfZyb4vJaSMF5wQig&gid=1546795163")),
-        new Map("Aiguillon", new URL("https://docs.google.com/spreadsheets/d/1ga9T6vYJXUEta_M8aI5fnPSJ13EfZyb4vJaSMF5wQig/export?format=csv&id=1ga9T6vYJXUEta_M8aI5fnPSJ13EfZyb4vJaSMF5wQig&gid=16438000")),
-        new Map("AI Station 205", new URL("https://docs.google.com/spreadsheets/d/1ga9T6vYJXUEta_M8aI5fnPSJ13EfZyb4vJaSMF5wQig/export?format=csv&id=1ga9T6vYJXUEta_M8aI5fnPSJ13EfZyb4vJaSMF5wQig&gid=225475495")),
-        new Map("AI Station 404", new URL("https://docs.google.com/spreadsheets/d/1ga9T6vYJXUEta_M8aI5fnPSJ13EfZyb4vJaSMF5wQig/export?format=csv&id=1ga9T6vYJXUEta_M8aI5fnPSJ13EfZyb4vJaSMF5wQig&gid=1717902971"))
+      val mapOptions = new ComboBox[GameMap](Seq[GameMap](//Combobox of possible map selections
+        new GameMap("Ribbit IV", new URL("https://docs.google.com/spreadsheets/d/1ga9T6vYJXUEta_M8aI5fnPSJ13EfZyb4vJaSMF5wQig/export?format=csv&id=1ga9T6vYJXUEta_M8aI5fnPSJ13EfZyb4vJaSMF5wQig&gid=2105017707")),
+        new GameMap("Sorona", new URL("https://docs.google.com/spreadsheets/d/1ga9T6vYJXUEta_M8aI5fnPSJ13EfZyb4vJaSMF5wQig/export?format=csv&id=1ga9T6vYJXUEta_M8aI5fnPSJ13EfZyb4vJaSMF5wQig&gid=1546795163")),
+        new GameMap("Aiguillon", new URL("https://docs.google.com/spreadsheets/d/1ga9T6vYJXUEta_M8aI5fnPSJ13EfZyb4vJaSMF5wQig/export?format=csv&id=1ga9T6vYJXUEta_M8aI5fnPSJ13EfZyb4vJaSMF5wQig&gid=16438000")),
+        new GameMap("AI Station 205", new URL("https://docs.google.com/spreadsheets/d/1ga9T6vYJXUEta_M8aI5fnPSJ13EfZyb4vJaSMF5wQig/export?format=csv&id=1ga9T6vYJXUEta_M8aI5fnPSJ13EfZyb4vJaSMF5wQig&gid=225475495")),
+        new GameMap("AI Station 404", new URL("https://docs.google.com/spreadsheets/d/1ga9T6vYJXUEta_M8aI5fnPSJ13EfZyb4vJaSMF5wQig/export?format=csv&id=1ga9T6vYJXUEta_M8aI5fnPSJ13EfZyb4vJaSMF5wQig&gid=1717902971"))
       )) {
         selection.reactions += {
           //Disable boxes for nonexistant turrets on Sorona and 404
           case SelectionChanged(_) => {
             val mapName = selection.item.toString
-            offsetsPanel.rtb.enabled = mapName != "Sorona"
-            offsetsPanel.btb.enabled = mapName != "Sorona"
-            offsetsPanel.rtf.enabled = mapName != "AI Station 404"
-            offsetsPanel.btf.enabled = mapName != "AI Station 404"
+            offsetsPanel.rtbx.enabled = mapName != "Sorona"
+            offsetsPanel.rtby.enabled = mapName != "Sorona"
+            offsetsPanel.btbx.enabled = mapName != "Sorona"
+            offsetsPanel.btby.enabled = mapName != "Sorona"
+            offsetsPanel.rtfx.enabled = mapName != "AI Station 404"
+            offsetsPanel.rtfy.enabled = mapName != "AI Station 404"
+            offsetsPanel.btfx.enabled = mapName != "AI Station 404"
+            offsetsPanel.btfy.enabled = mapName != "AI Station 404"
           }
         }
       }
 
       val offsetsPanel = new BoxPanel(Orientation.Vertical) {
-        val rtf = new TextField(4)
-        val rtb = new TextField(4)
-        val rbf = new TextField(4)
-        val rbb = new TextField("0.00", 4) {
-          enabled = false
-        }
-        val btf = new TextField(4)
-        val btb = new TextField(4)
-        val bbf = new TextField(4)
-        val bbb = new TextField(4)
+        val rtfx = new TextField(4)
+        val rtfy = new TextField(4)
+        val rtbx = new TextField(4)
+        val rtby = new TextField(4)
+        val rbfx = new TextField(4)
+        val rbfy = new TextField(4)
+        val btfx = new TextField(4)
+        val btfy = new TextField(4)
+        val btbx = new TextField(4)
+        val btby = new TextField(4)
+        val bbfx = new TextField(4)
+        val bbfy = new TextField(4)
+        val bbbx = new TextField(4)
+        val bbby = new TextField(4)
 
         contents += new BoxPanel(Orientation.Horizontal) {
           contents += new Label("RTB")
-          contents += rtb
+          contents += rtbx
+          contents += rtby
           contents += new Label("RTF")
-          contents += rtf
+          contents += rtfx
+          contents += rtfy
           contents += new Label("BTF")
-          contents += btf
+          contents += btfx
+          contents += btfy
           contents += new Label("BTB")
-          contents += btb
+          contents += btbx
+          contents += btby
         }
         contents += new BoxPanel(Orientation.Horizontal) {
+          //Dummy boxes for the reference turret
           contents += new Label("RBB")
-          contents += rbb
+          contents += new TextField("0.00", 4) {
+            enabled = false
+          }
+          contents += new TextField("0.00", 4) {
+            enabled = false
+          }
           contents += new Label("RBF")
-          contents += rbf
+          contents += rbfx
+          contents += rbfy
           contents += new Label("BBF")
-          contents += bbf
+          contents += bbfx
+          contents += bbfy
           contents += new Label("BBB")
-          contents += bbb
+          contents += bbbx
+          contents += bbby
         }
 
       }
@@ -77,7 +99,19 @@ object MainAppGUI extends SimpleSwingApplication {
             //Processes url into an array of strings representing each node
             val downloadedText = Source.fromURL(mapOptions.selection.item.url).mkString
             val nodes = downloadedText.split("\n")
-            //TODO: Input, Processing, and Saving
+            //Sends to node calibration Gui in a config object
+            try {
+              new NodeCalibrationGUI(Config(nodes,
+                new Point2D.Double(offsetsPanel.rtbx.text.toDouble, offsetsPanel.rtby.text.toDouble),
+                new Point2D.Double(offsetsPanel.rtfx.text.toDouble, offsetsPanel.rtfy.text.toDouble),
+                new Point2D.Double(offsetsPanel.btfx.text.toDouble, offsetsPanel.btfy.text.toDouble),
+                new Point2D.Double(offsetsPanel.btbx.text.toDouble, offsetsPanel.btby.text.toDouble),
+                new Point2D.Double(offsetsPanel.rbfx.text.toDouble, offsetsPanel.rbfy.text.toDouble),
+                new Point2D.Double(offsetsPanel.bbfx.text.toDouble, offsetsPanel.bbfy.text.toDouble),
+                new Point2D.Double(offsetsPanel.bbbx.text.toDouble, offsetsPanel.bbby.text.toDouble)))
+            } catch {
+              case _ => Dialog.showMessage(null, "Bad number input")
+            }
           }
         }
       }
@@ -92,6 +126,6 @@ object MainAppGUI extends SimpleSwingApplication {
   }
 }
 
-class Map(name: String, val url: URL){
+class GameMap(name: String, val url: URL) {
   override def toString: String = name
 }
