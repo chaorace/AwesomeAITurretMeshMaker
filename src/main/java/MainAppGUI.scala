@@ -25,10 +25,10 @@ object MainAppGUI extends SimpleSwingApplication {
           //Disable boxes for nonexistant turrets on Sorona and 404
           case SelectionChanged(_) => {
             val mapName = selection.item.toString
-            offsetsPanel.rtb.enabled = (mapName != "Sorona")
-            offsetsPanel.btb.enabled = (mapName != "Sorona")
-            offsetsPanel.rtf.enabled = (mapName != "AI Station 404")
-            offsetsPanel.btf.enabled = (mapName != "AI Station 404")
+            offsetsPanel.rtb.enabled = mapName != "Sorona"
+            offsetsPanel.btb.enabled = mapName != "Sorona"
+            offsetsPanel.rtf.enabled = mapName != "AI Station 404"
+            offsetsPanel.btf.enabled = mapName != "AI Station 404"
           }
         }
       }
