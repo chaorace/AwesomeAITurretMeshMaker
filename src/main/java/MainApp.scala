@@ -33,18 +33,7 @@ object MainApp extends SimpleSwingApplication{
             //Processes url into an array of strings representing each node
             val downloadedText = Source.fromURL(mapOptions.selection.item.url).mkString
             val nodes = downloadedText.split("\n")
-            //Gets a rule from the user
-            val rule = MultiLineOptionPane.showInputDialog("Input rule below. Replace node name with 'NODENAME'")
-            //Gets a save location from the user
-            fc.showSaveDialog(null)
-            val outputFile = fc.selectedFile
-            //Writes the pattern to the designated file using the rule
-            outputFile.createNewFile()
-            val writer = new PrintWriter(outputFile)
-            writer.write(AwesomeXmlFormatter.formatNodes(nodes, rule))
-            writer.close
-            //Celebrate
-            JOptionPane.showMessageDialog(null, "Success!")
+            //TODO: Input, Processing, and Saving
           }
         }
       }
