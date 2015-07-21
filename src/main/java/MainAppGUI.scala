@@ -97,7 +97,8 @@ object MainAppGUI extends SimpleSwingApplication {
           case ButtonClicked(_) => {
 
             //Processes url into an array of strings representing each node
-            val downloadedText = Source.fromURL(mapOptions.selection.item.url).mkString
+            //            val downloadedText = Source.fromURL(mapOptions.selection.item.url).mkString
+            val downloadedText = "REGENHOME\nUPPERLANESECOND_0\nFINALSTAND_0"
             val nodes = downloadedText.split("\n")
             //Sends to node calibration Gui in a config object
             try {
@@ -110,7 +111,7 @@ object MainAppGUI extends SimpleSwingApplication {
                 new Point2D.Double(offsetsPanel.bbfx.text.toDouble, offsetsPanel.bbfy.text.toDouble),
                 new Point2D.Double(offsetsPanel.bbbx.text.toDouble, offsetsPanel.bbby.text.toDouble)))
             } catch {
-              case _ => Dialog.showMessage(null, "Bad number input")
+              case _: Exception => Dialog.showMessage(null, "Bad number input")
             }
           }
         }
