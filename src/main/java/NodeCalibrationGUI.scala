@@ -19,8 +19,8 @@ class NodeCalibrationGUI(c: Config) extends Frame {
           contents += new Label(x) {
             preferredSize = new Dimension(200, 20)
           }
-          val t = new TextField("2")
-          val t2 = new TextField("2")
+          val t = new TextField
+          val t2 = new TextField
           nodeFields += (x ->(t, t2))
           contents += t
           contents += t2
