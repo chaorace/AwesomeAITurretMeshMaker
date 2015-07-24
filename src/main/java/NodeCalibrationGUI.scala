@@ -10,6 +10,7 @@ import scala.swing.event.ButtonClicked
  * Created by Chris on 6/11/2015.
  */
 class NodeCalibrationGUI(c: Config) extends Frame {
+  peer.setAlwaysOnTop(true)
   val fc = new FileChooser()
   contents = new ScrollPane() {
     contents = new BoxPanel(Orientation.Vertical) {

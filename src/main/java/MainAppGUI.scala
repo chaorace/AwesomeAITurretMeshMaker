@@ -13,6 +13,7 @@ import scala.swing.event.{SelectionChanged, ButtonClicked}
 //Downloads nodelists and saves them in Awesomenauts formatted XML
 object MainAppGUI extends SimpleSwingApplication {
   override def top: Frame = new MainFrame {
+    peer.setAlwaysOnTop(true)
     contents = new BoxPanel(Orientation.Vertical) {
       //GUI
       val mapOptions = new ComboBox[GameMap](Seq[GameMap](//Combobox of possible map selections
