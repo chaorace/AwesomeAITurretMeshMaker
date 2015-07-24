@@ -21,8 +21,8 @@ object AwesomeXmlFormatter {
         """<string id="teams" values="teams" multiselect="true">OWN_TEAM;;ENEMY_TEAM;;</string>""" + "\n" +
         """<string id="health comparison" values="valuecompare">greater</string>""" + "\n" +
         """<float id="health">0.00</float>""" + "\n" +
-        s"""<float id=\"xOffset\">${currOffset.getX + Turret.getOffset(c, t).getX * mult}</float>""" + "\n" +
-        s"""<float id=\"yOffset\">${currOffset.getY + Turret.getOffset(c, t).getY * mult}</float>""" + "\n" +
+        s"""<float id=\"xOffset\">${(currOffset.getX + Turret.getOffset(c, t).getX) * mult}</float>""" + "\n" +
+        s"""<float id=\"yOffset\">${currOffset.getY + Turret.getOffset(c, t).getY}</float>""" + "\n" +
         """<float id="width">0.50</float>""" + "\n" +
         """<float id="height">0.75</float>""" + "\n" +
         """<string id="check line of sight" values="yesno">no</string>""" + "\n" +
@@ -60,16 +60,16 @@ object AwesomeXmlFormatter {
 
       c.formatType match {
         case FormatType.Normal => {
-          Turret.values.foreach(x => generateTurretSet(remainingNodes.head._2, x, 1).foreach(x => s0 += x))
-          Turret.values.foreach(x => generateTurretSet(remainingNodes.head._2, x, -1).foreach(x => s1 += x))
+          Turret.values.foreach(x => generateTurretSet(remainingNodes.head._2, x, 1.0).foreach(x => s0 += x))
+          Turret.values.foreach(x => generateTurretSet(remainingNodes.head._2, x, -1.0).foreach(x => s1 += x))
         }
         case FormatType.oldAI => {
-          Turret.getOldAITurrets.foreach(x => generateTurretSet(remainingNodes.head._2, x, 1).foreach(x => s0 += x))
-          Turret.getOldAITurrets.foreach(x => generateTurretSet(remainingNodes.head._2, x, -1).foreach(x => s1 += x))
+          Turret.getOldAITurrets.foreach(x => generateTurretSet(remainingNodes.head._2, x, 1.0).foreach(x => s0 += x))
+          Turret.getOldAITurrets.foreach(x => generateTurretSet(remainingNodes.head._2, x, -1.0).foreach(x => s1 += x))
         }
         case FormatType.Sorona => {
-          Turret.getSoronaTurrets.foreach(x => generateTurretSet(remainingNodes.head._2, x, 1).foreach(x => s0 += x))
-          Turret.getSoronaTurrets.foreach(x => generateTurretSet(remainingNodes.head._2, x, -1).foreach(x => s1 += x))
+          Turret.getSoronaTurrets.foreach(x => generateTurretSet(remainingNodes.head._2, x, 1.0).foreach(x => s0 += x))
+          Turret.getSoronaTurrets.foreach(x => generateTurretSet(remainingNodes.head._2, x, -1.0).foreach(x => s1 += x))
         }
       }
 
