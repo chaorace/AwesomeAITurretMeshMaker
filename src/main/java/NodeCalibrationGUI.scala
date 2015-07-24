@@ -54,6 +54,11 @@ class NodeCalibrationGUI(c: Config) extends Frame {
   visible = true
 }
 
-case class Config(nodes: Array[String],
+case class Config(nodes: Array[String], formatType: FormatType.Value,
                   rtbOffset: Point2D.Double, rtfOffset: Point2D.Double, btfOffset: Point2D.Double, btbOffset: Point2D.Double,
                   rbfOffset: Point2D.Double, bbfOffset: Point2D.Double, bbbOffset: Point2D.Double)
+
+object FormatType extends Enumeration {
+  type FormatType = Value
+  val Normal, Sorona, oldAI = Value
+}

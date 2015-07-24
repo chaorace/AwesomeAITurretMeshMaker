@@ -52,10 +52,27 @@ object AwesomeXmlFormatter {
       if (remainingNodes.isEmpty) {
         return ""
       }
+
       var s0 = ""
-      Turret.values.foreach(x => generateTurretSet(remainingNodes.head._2, x, 1).foreach(x => s0 += x))
+
       var s1 = ""
-      Turret.values.foreach(x => generateTurretSet(remainingNodes.head._2, x, -1).foreach(x => s1 += x))
+
+
+      c.formatType match {
+        case FormatType.Normal => {
+          Turret.values.foreach(x => generateTurretSet(remainingNodes.head._2, x, 1).foreach(x => s0 += x))
+          Turret.values.foreach(x => generateTurretSet(remainingNodes.head._2, x, -1).foreach(x => s1 += x))
+        }
+        case FormatType.oldAI => {
+          Turret.getOldAITurrets.foreach(x => generateTurretSet(remainingNodes.head._2, x, 1).foreach(x => s0 += x))
+          Turret.getOldAITurrets.foreach(x => generateTurretSet(remainingNodes.head._2, x, -1).foreach(x => s1 += x))
+        }
+        case FormatType.Sorona => {
+          Turret.getSoronaTurrets.foreach(x => generateTurretSet(remainingNodes.head._2, x, 1).foreach(x => s0 += x))
+          Turret.getSoronaTurrets.foreach(x => generateTurretSet(remainingNodes.head._2, x, -1).foreach(x => s1 += x))
+        }
+      }
+
 
       var out = "%s"
 
@@ -137,5 +154,13 @@ object Turret extends Enumeration {
     case Turret22 => c.btfOffset
     case Turret23 => c.bbfOffset
   }
+
+  def getSoronaTurrets() = List[Turret.Value](
+    Turret11, Turret12, Turret13, Turret21, Turret22, Turret23
+  )
+
+  def getOldAITurrets() = List[Turret.Value](
+    Turret10, Turret11, Turret13, Turret20, Turret21, Turret23
+  )
 }
 
