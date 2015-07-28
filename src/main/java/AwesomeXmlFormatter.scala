@@ -1,13 +1,11 @@
-import java.awt.geom.Point2D
 import scala.collection.mutable.Map
-import scala.xml._
 
 
 /**
  * Created by Chris on 6/9/2015.
  */
 object AwesomeXmlFormatter {
-  def formatNodes(nodesOffsets: Map[String, Point2D.Double], c: Config): String = {
+  def formatNodes(nodesOffsets: Map[String, SPoint2D], c: Config): String = {
     var firstCycle = true
 
 
@@ -16,13 +14,13 @@ object AwesomeXmlFormatter {
 
     //TODO:Generation logic
 
-    def generateTurretSet(currOffset: Point2D.Double, t: Turret.Value, mult: Double): String = {
+    def generateTurretSet(currOffset: SPoint2D, t: Turret.Value, mult: Double): String = {
       """<condition id="isTurretInArea">""" + "\n" +
         """<string id="teams" values="teams" multiselect="true">OWN_TEAM;;ENEMY_TEAM;;</string>""" + "\n" +
         """<string id="health comparison" values="valuecompare">greater</string>""" + "\n" +
         """<float id="health">0.00</float>""" + "\n" +
-        s"""<float id=\"xOffset\">${(currOffset.getX + Turret.getOffset(c, t).getX) * mult}</float>""" + "\n" +
-        s"""<float id=\"yOffset\">${currOffset.getY + Turret.getOffset(c, t).getY}</float>""" + "\n" +
+        s"""<float id=\"xOffset\">${(currOffset.x + Turret.getOffset(c, t).x) * mult}</float>""" + "\n" +
+        s"""<float id=\"yOffset\">${currOffset.y + Turret.getOffset(c, t).y}</float>""" + "\n" +
         """<float id="width">0.50</float>""" + "\n" +
         """<float id="height">0.75</float>""" + "\n" +
         """<string id="check line of sight" values="yesno">no</string>""" + "\n" +
@@ -45,7 +43,7 @@ object AwesomeXmlFormatter {
     }
 
 
-    def xmlLoop(remainingNodes: Map[String, Point2D.Double]): String = {
+    def xmlLoop(remainingNodes: Map[String, SPoint2D]): String = {
 
 
       //Recursion escape condition and special formatting
@@ -142,9 +140,9 @@ object Turret extends Enumeration {
   type Turret = Value
   val Turret10, Turret11, Turret12, Turret13, Turret20, Turret21, Turret22, Turret23 = Value
 
-  val noOffset = new Point2D.Double(0.00, 0.00)
+  val noOffset = new SPoint2D(0.00, 0.00)
 
-  def getOffset(c: Config, t: Turret.Value): Point2D.Double = t match {
+  def getOffset(c: Config, t: Turret.Value): SPoint2D = t match {
     case Turret10 => c.rtbOffset
     case Turret11 => noOffset
     case Turret12 => c.rtfOffset

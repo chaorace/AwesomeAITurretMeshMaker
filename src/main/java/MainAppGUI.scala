@@ -1,5 +1,4 @@
 
-import java.awt.geom.Point2D
 import java.net.URL
 
 import scala.io.Source
@@ -111,13 +110,13 @@ object MainAppGUI extends SimpleSwingApplication {
               case "Sorona" => {
                 try {
                   new NodeCalibrationGUI(Config(nodes, FormatType.Sorona,
-                    new Point2D.Double(0.00, 0.00),
-                    new Point2D.Double(offsetsPanel.rtfx.text.toDouble, offsetsPanel.rtfy.text.toDouble),
-                    new Point2D.Double(offsetsPanel.btfx.text.toDouble, offsetsPanel.btfy.text.toDouble),
-                    new Point2D.Double(0.00, 0.00),
-                    new Point2D.Double(offsetsPanel.rbfx.text.toDouble, offsetsPanel.rbfy.text.toDouble),
-                    new Point2D.Double(offsetsPanel.bbfx.text.toDouble, offsetsPanel.bbfy.text.toDouble),
-                    new Point2D.Double(offsetsPanel.bbbx.text.toDouble, offsetsPanel.bbby.text.toDouble)))
+                    new SPoint2D(0.00, 0.00),
+                    new SPoint2D(offsetsPanel.rtfx.text.toDouble, offsetsPanel.rtfy.text.toDouble),
+                    new SPoint2D(offsetsPanel.btfx.text.toDouble, offsetsPanel.btfy.text.toDouble),
+                    new SPoint2D(0.00, 0.00),
+                    new SPoint2D(offsetsPanel.rbfx.text.toDouble, offsetsPanel.rbfy.text.toDouble),
+                    new SPoint2D(offsetsPanel.bbfx.text.toDouble, offsetsPanel.bbfy.text.toDouble),
+                    new SPoint2D(offsetsPanel.bbbx.text.toDouble, offsetsPanel.bbby.text.toDouble)))
                 } catch {
                   case _: Exception => Dialog.showMessage(null, "Bad number input")
                 }
@@ -125,13 +124,13 @@ object MainAppGUI extends SimpleSwingApplication {
               case "AI Station 404" => {
                 try {
                   new NodeCalibrationGUI(Config(nodes, FormatType.oldAI,
-                    new Point2D.Double(offsetsPanel.rtbx.text.toDouble, offsetsPanel.rtby.text.toDouble),
-                    new Point2D.Double(0.00, 0.00),
-                    new Point2D.Double(0.00, 0.00),
-                    new Point2D.Double(offsetsPanel.btbx.text.toDouble, offsetsPanel.btby.text.toDouble),
-                    new Point2D.Double(offsetsPanel.rbfx.text.toDouble, offsetsPanel.rbfy.text.toDouble),
-                    new Point2D.Double(offsetsPanel.bbfx.text.toDouble, offsetsPanel.bbfy.text.toDouble),
-                    new Point2D.Double(offsetsPanel.bbbx.text.toDouble, offsetsPanel.bbby.text.toDouble)))
+                    new SPoint2D(offsetsPanel.rtbx.text.toDouble, offsetsPanel.rtby.text.toDouble),
+                    new SPoint2D(0.00, 0.00),
+                    new SPoint2D(0.00, 0.00),
+                    new SPoint2D(offsetsPanel.btbx.text.toDouble, offsetsPanel.btby.text.toDouble),
+                    new SPoint2D(offsetsPanel.rbfx.text.toDouble, offsetsPanel.rbfy.text.toDouble),
+                    new SPoint2D(offsetsPanel.bbfx.text.toDouble, offsetsPanel.bbfy.text.toDouble),
+                    new SPoint2D(offsetsPanel.bbbx.text.toDouble, offsetsPanel.bbby.text.toDouble)))
                 } catch {
                   case _: Exception => Dialog.showMessage(null, "Bad number input")
                 }
@@ -139,13 +138,13 @@ object MainAppGUI extends SimpleSwingApplication {
               case _ => {
                 try {
                   new NodeCalibrationGUI(Config(nodes, FormatType.Normal,
-                    new Point2D.Double(offsetsPanel.rtbx.text.toDouble, offsetsPanel.rtby.text.toDouble),
-                    new Point2D.Double(offsetsPanel.rtfx.text.toDouble, offsetsPanel.rtfy.text.toDouble),
-                    new Point2D.Double(offsetsPanel.btfx.text.toDouble, offsetsPanel.btfy.text.toDouble),
-                    new Point2D.Double(offsetsPanel.btbx.text.toDouble, offsetsPanel.btby.text.toDouble),
-                    new Point2D.Double(offsetsPanel.rbfx.text.toDouble, offsetsPanel.rbfy.text.toDouble),
-                    new Point2D.Double(offsetsPanel.bbfx.text.toDouble, offsetsPanel.bbfy.text.toDouble),
-                    new Point2D.Double(offsetsPanel.bbbx.text.toDouble, offsetsPanel.bbby.text.toDouble)))
+                    new SPoint2D(offsetsPanel.rtbx.text.toDouble, offsetsPanel.rtby.text.toDouble),
+                    new SPoint2D(offsetsPanel.rtfx.text.toDouble, offsetsPanel.rtfy.text.toDouble),
+                    new SPoint2D(offsetsPanel.btfx.text.toDouble, offsetsPanel.btfy.text.toDouble),
+                    new SPoint2D(offsetsPanel.btbx.text.toDouble, offsetsPanel.btby.text.toDouble),
+                    new SPoint2D(offsetsPanel.rbfx.text.toDouble, offsetsPanel.rbfy.text.toDouble),
+                    new SPoint2D(offsetsPanel.bbfx.text.toDouble, offsetsPanel.bbfy.text.toDouble),
+                    new SPoint2D(offsetsPanel.bbbx.text.toDouble, offsetsPanel.bbby.text.toDouble)))
                 } catch {
                   case _: Exception => Dialog.showMessage(null, "Bad number input")
                 }

@@ -1,4 +1,3 @@
-import java.awt.geom.Point2D
 import java.io.PrintWriter
 
 
@@ -35,9 +34,9 @@ class NodeCalibrationGUI(c: Config) extends Frame {
           new Button("Generate!") {
             reactions += {
               case ButtonClicked(_) => {
-                var m: Map[String, Point2D.Double] = Map()
+                var m: Map[String, SPoint2D] = Map()
                 nodeFields.foreach(x => {
-                  m += (x._1 -> new Point2D.Double(x._2._1.text.toDouble, x._2._2.text.toDouble))
+                  m += (x._1 -> new SPoint2D(x._2._1.text.toDouble, x._2._2.text.toDouble))
                 })
                 fc.showSaveDialog(null)
                 val outputFile = fc.selectedFile
@@ -57,9 +56,9 @@ class NodeCalibrationGUI(c: Config) extends Frame {
           new Button("Save Config") {
             reactions += {
               case ButtonClicked(_) => {
-                var m: Map[String, Point2D.Double] = Map()
+                var m: Map[String, SPoint2D] = Map()
                 nodeFields.foreach(x => {
-                  m += (x._1 -> new Point2D.Double(x._2._1.text.toDouble, x._2._2.text.toDouble))
+                  m += (x._1 -> new SPoint2D(x._2._1.text.toDouble, x._2._2.text.toDouble))
                 })
                 val pkl = m.pickle
                 fc.showSaveDialog(null)
@@ -77,12 +76,12 @@ class NodeCalibrationGUI(c: Config) extends Frame {
               case ButtonClicked(_) => {
                 fc.showOpenDialog(null)
                 val inputFile = fc.selectedFile
-                val m = Source.fromFile(inputFile).mkString.unpickle[Map[String, Point2D.Double]]
+                val m = Source.fromFile(inputFile).mkString.unpickle[Map[String, SPoint2D]]
                 m.foreach(x => {
                   nodeFields.foreach(y => {
                     if (y._1 == x._1) {
-                      y._2._1.text = x._2.getX.toString
-                      y._2._2.text = x._2.getY.toString
+                      y._2._1.text = x._2.x.toString
+                      y._2._2.text = x._2.y.toString
                     }
                   })
                 })
@@ -98,8 +97,8 @@ class NodeCalibrationGUI(c: Config) extends Frame {
 }
 
 case class Config(nodes: Array[String], formatType: FormatType.Value,
-                  rtbOffset: Point2D.Double, rtfOffset: Point2D.Double, btfOffset: Point2D.Double, btbOffset: Point2D.Double,
-                  rbfOffset: Point2D.Double, bbfOffset: Point2D.Double, bbbOffset: Point2D.Double)
+                  rtbOffset: SPoint2D, rtfOffset: SPoint2D, btfOffset: SPoint2D, btbOffset: SPoint2D,
+                  rbfOffset: SPoint2D, bbfOffset: SPoint2D, bbbOffset: SPoint2D)
 
 object FormatType extends Enumeration {
   type FormatType = Value

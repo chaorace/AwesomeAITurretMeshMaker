@@ -10,9 +10,14 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Maven: org.scala-lang:scala-swing:2.11.0-M7" level="project" />
-    <orderEntry type="library" name="Maven: org.scala-lang:scala-library:2.11.0-M7" level="project" />
     <orderEntry type="library" name="scala-sdk-2.11.6" level="application" />
     <orderEntry type="library" name="scala-xml_2.11-1.0.3" level="project" />
+    <orderEntry type="library" name="Maven: org.scala-lang:scala-swing:2.11.0-M7" level="project" />
+    <orderEntry type="library" name="Maven: org.scala-lang:scala-library:2.11.0-M7" level="project" />
+    <orderEntry type="library" name="Maven: org.scala-lang.modules:scala-pickling_2.11:0.10.1" level="project" />
+    <orderEntry type="library" name="Maven: org.scala-lang:scala-compiler:2.11.6" level="project" />
+    <orderEntry type="library" name="Maven: org.scala-lang.modules:scala-xml_2.11:1.0.3" level="project" />
+    <orderEntry type="library" name="Maven: org.scala-lang:scala-reflect:2.11.6" level="project" />
+    <orderEntry type="library" name="Maven: org.scala-lang.modules:scala-parser-combinators_2.11:1.0.2" level="project" />
   </component>
 </module>
