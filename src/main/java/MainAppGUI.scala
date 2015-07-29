@@ -1,9 +1,12 @@
 
+import java.io.PrintWriter
 import java.net.URL
 
 import scala.io.Source
 import scala.swing._
 import scala.swing.event.{SelectionChanged, ButtonClicked}
+import pickling.Defaults._
+import pickling.json._
 
 /**
  * Created by Chris on 6/9/2015.
@@ -11,6 +14,9 @@ import scala.swing.event.{SelectionChanged, ButtonClicked}
 
 //Downloads nodelists and saves them in Awesomenauts formatted XML
 object MainAppGUI extends SimpleSwingApplication {
+  var customURL: Option[String] = None
+  val fc = new FileChooser
+
   override def top: Frame = new MainFrame {
     peer.setAlwaysOnTop(true)
     contents = new BoxPanel(Orientation.Vertical) {
@@ -92,14 +98,13 @@ object MainAppGUI extends SimpleSwingApplication {
 
       val saveButton = new Button {
         //Opens a save dialog when clicked
-        text = "Save"
+        text = "Generate!"
         reactions += {
           //Downloads nodes and saves them to selected file after clicking save
           case ButtonClicked(_) => {
 
             //Processes url into an array of strings representing each node
-            val downloadedText = Source.fromURL(mapOptions.selection.item.url).mkString
-            //            val downloadedText = "REGENHOME\nUPPERLANESECOND_0\nFINALSTAND_0"
+            val downloadedText = Source.fromURL(if (customURL.nonEmpty) new URL(customURL.get) else mapOptions.selection.item.url).mkString
             val nodes = downloadedText.split("\n")
             //Sends to node calibration Gui in a config object
 
@@ -158,12 +163,84 @@ object MainAppGUI extends SimpleSwingApplication {
       contents += mapOptions
       contents += new Label("Calibrate relative turret offsets")
       contents += offsetsPanel
-      contents += saveButton
+      contents += new BoxPanel(Orientation.Horizontal) {
+        contents += saveButton
+        contents += new Button("Load Custom Map URL") {
+          reactions += {
+            case ButtonClicked(_) => {
+              customURL = Dialog.showInput(contents.head, "Please input custom map url", initial = mapOptions.selection.item.url.toString)
+            }
+          }
+        }
+        contents += new Button("Clear Custom Map URL") {
+          reactions += {
+            case ButtonClicked(_) => {
+              customURL = None
+            }
+          }
+        }
+        contents += new Button("Save Configuration") {
+          reactions += {
+            case ButtonClicked(_) => {
+              val mapName = mapOptions.selection.item.toString
+              val c = new MainUIConfig(mapName, customURL,
+                new SPoint2D(offsetsPanel.rtbx.text.toDouble, offsetsPanel.rtby.text.toDouble),
+                new SPoint2D(offsetsPanel.rtfx.text.toDouble, offsetsPanel.rtfy.text.toDouble),
+                new SPoint2D(offsetsPanel.btfx.text.toDouble, offsetsPanel.btfy.text.toDouble),
+                new SPoint2D(offsetsPanel.btbx.text.toDouble, offsetsPanel.btby.text.toDouble),
+                new SPoint2D(offsetsPanel.rbfx.text.toDouble, offsetsPanel.rbfy.text.toDouble),
+                new SPoint2D(offsetsPanel.bbfx.text.toDouble, offsetsPanel.bbfy.text.toDouble),
+                new SPoint2D(offsetsPanel.bbbx.text.toDouble, offsetsPanel.bbby.text.toDouble))
+              val pkl = c.pickle
+              fc.showSaveDialog(null)
+              val outputFile = fc.selectedFile
+              val writer = new PrintWriter(outputFile)
+              writer.write(pkl.value)
+              writer.close()
+              Dialog.showMessage(null, "Success!")
+            }
+          }
+        }
+        contents += new Button("Load Configuration") {
+          reactions += {
+            case ButtonClicked(_) => {
+              fc.showOpenDialog(null)
+              val inputFile = fc.selectedFile
+              val c: MainUIConfig = Source.fromFile(inputFile).mkString.unpickle[MainUIConfig]
+              c.mapName match {
+                case "Ribbit IV" => mapOptions.selection.index = 0
+                case "Sorona" => mapOptions.selection.index = 1
+                case "Aiguillon" => mapOptions.selection.index = 2
+                case "AI Station 205" => mapOptions.selection.index = 3
+                case "AI Station 404" => mapOptions.selection.index = 4
+              }
+              offsetsPanel.rtbx.text = c.rtbOffset.x.toString
+              offsetsPanel.rtby.text = c.rtbOffset.y.toString
+              offsetsPanel.rtfx.text = c.rtfOffset.x.toString
+              offsetsPanel.rtfy.text = c.rtfOffset.y.toString
+              offsetsPanel.rbfx.text = c.rbfOffset.x.toString
+              offsetsPanel.rbfy.text = c.rbfOffset.y.toString
+              offsetsPanel.btfx.text = c.btfOffset.x.toString
+              offsetsPanel.btfy.text = c.btfOffset.y.toString
+              offsetsPanel.bbfx.text = c.bbfOffset.x.toString
+              offsetsPanel.bbfy.text = c.bbfOffset.y.toString
+              offsetsPanel.btbx.text = c.btbOffset.x.toString
+              offsetsPanel.btby.text = c.btbOffset.y.toString
+              offsetsPanel.bbbx.text = c.bbbOffset.x.toString
+              offsetsPanel.bbby.text = c.bbbOffset.y.toString
+              customURL = c.customURL
+            }
+          }
+        }
+      }
     }
-
   }
 }
 
 class GameMap(name: String, val url: URL) {
   override def toString: String = name
 }
+
+case class MainUIConfig(mapName: String, customURL: Option[String],
+                        rtbOffset: SPoint2D, rtfOffset: SPoint2D, btfOffset: SPoint2D, btbOffset: SPoint2D,
+                        rbfOffset: SPoint2D, bbfOffset: SPoint2D, bbbOffset: SPoint2D)
